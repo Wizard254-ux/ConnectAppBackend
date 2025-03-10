@@ -10,7 +10,7 @@ const Messages=require('./Routes/Messages')
 app.use(express.json())
 require('dotenv').config()
 
-app.use(cors({origin:['http://localhost:5173']}))
+app.use(cors({origin:['*']}))
 
 app.use('/api/user/auth',userAuthenticate)
 app.use('/api/user/profile',userProfile)

@@ -29,7 +29,7 @@ const createProfile=async(req,res)=>{
           const data={
             ...profile._doc,
             images:profile.images.map(imageName=>{
-              return `http://192.168.137.1:5000/api/userProfile/${imageName}`
+              return `https://connectappbackend-9q1i.onrender.com/api/userProfile/${imageName}`
                     })}
       res.status(201).json({message:"succesfull",data})
     }catch(error){
@@ -49,7 +49,7 @@ const getProfile=async(req,res)=>{
         const profile={
             ...existingProfile._doc,
             images:existingProfile.images.map(imageName=>{
-              return `http:/192.168.137.1:5000/api/userProfile/${imageName}`         
+              return `https://connectappbackend-9q1i.onrender.com/api/userProfile/${imageName}`         
           })
           }
         

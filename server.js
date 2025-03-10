@@ -7,7 +7,7 @@ const {savePrivateMessage}=require('./Controllers/PrivateChat')
 io=socketIO(server,{
     
         cors: {
-            origin:['http://localhost:5173',],
+            origin:['*'],
             credentials:true
         }
 

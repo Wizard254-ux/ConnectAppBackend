@@ -20,7 +20,7 @@ const getAllProfile=async(req,res)=>{
             return({
                 ...profile._doc,
                 images:profile.images.map(imageName=>{
-                  return `http:/192.168.137.1:5000/api/userProfile/${imageName}`         
+                  return `https://connectappbackend-9q1i.onrender.com/api/userProfile/${imageName}`         
               })
             })
           })
