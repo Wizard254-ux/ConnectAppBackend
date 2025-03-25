@@ -5,6 +5,8 @@ const fs=require('fs')
 const app=express()
 app.use(express.json())
 const UserProfile=require('../Models/Profile.model')
+const User=require('../Models/User.model')
+
 
 const createProfile=async(req,res)=>{
     try{
@@ -142,9 +144,21 @@ const deleteImage=async(req,res)=>{
   }
 };
 
+const handleDp=async(req,res)=>{
+  const username=req.params.username
+  const existingUser=await User.findOne({username})
+  const existingProfile=await UserProfile.findOne({userId:existingUser.id})
+  if(existingProfile){
+    res.sendFile(path.join(__dirname,'../Middleware/UserImages',existingProfile.images[0]))
+  }else{
+    res.status(404).json({message:'Profile not found'})
+  }
+}
+
  module.exports={
     createProfile,
     getProfile,
     deleteImage,
-    updateProfile
+    updateProfile,
+    handleDp
  }
