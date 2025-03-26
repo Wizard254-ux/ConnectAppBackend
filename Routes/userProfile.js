@@ -4,13 +4,13 @@ router.use(express.json())
 
 const Authenticate=require('../Middleware/userAuthentication')
 const upload=require('../Middleware/ProfileImagesHandler')
-const {createProfile,handleDp,getProfile,deleteImage,updateProfile}=require('../Controllers/UserProfile')
+const {createProfile,handleDp,handleProfilePics,getProfile,deleteImage,updateProfile}=require('../Controllers/UserProfile')
 
 
 
 router.use((req, res, next) => {
     console.log(req.path)
-    if (req.path.startsWith('/userDp/')) {
+    if (req.path.startsWith('/userDp/')||req.path.startsWith('/handle')) {
         return next(); // Skip authentication for this specific path pattern
       }
     // Otherwise, apply authentication
@@ -24,5 +24,6 @@ router.use('/fetch',getProfile)
 router.use('/imageDelete',deleteImage)
 router.use('/update',updateProfile)
 router.use('/userDp/:username',handleDp)
+router.use('/handleProfilePics/:picName',handleProfilePics)
 
 module.exports=router

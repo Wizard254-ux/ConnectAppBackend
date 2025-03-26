@@ -14,7 +14,7 @@ app.use(cors({origin:['*']}))
 
 app.use('/api/user/auth',userAuthenticate)
 app.use('/api/user/profile',userProfile)
-app.use('/api/userProfile',express.static(path.join(__dirname,'Middleware','UserImages')))
+app.use('/api/userProfile',userProfile)
 app.use('/api/view',userProfile)
 app.use('/api/pesapal',pespalHandlers)
 app.use('/api',General)

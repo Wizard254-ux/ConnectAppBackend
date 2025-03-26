@@ -155,10 +155,20 @@ const handleDp=async(req,res)=>{
   }
 }
 
+const handleProfilePics=(req,res)=>{
+  const picName=req.params.picName
+  if(picName){
+    res.sendFile(path.join(__dirname,'../Middleware/UserImages',picName))
+  }else{
+    res.status(404).json({message:' picture Not found'})
+  }
+}
+
  module.exports={
     createProfile,
     getProfile,
     deleteImage,
     updateProfile,
-    handleDp
+    handleDp,
+    handleProfilePics
  }
