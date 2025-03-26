@@ -31,7 +31,7 @@ const createProfile=async(req,res)=>{
           const data={
             ...profile._doc,
             images:profile.images.map(imageName=>{
-              return `https://connectappbackend-9q1i.onrender.com/api/userProfile/${imageName}`
+              return `https://connectappbackend-9q1i.onrender.com/api/userProfile/handleProfilePics${imageName}`
                     })}
       res.status(201).json({message:"succesfull",data})
     }catch(error){
