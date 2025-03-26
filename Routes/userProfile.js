@@ -1,29 +1,36 @@
-const express=require('express')
-const router=express.Router()
+const express = require('express')
+const router = express.Router()
 router.use(express.json())
+const Authenticate = require('../Middleware/userAuthentication')
+const upload = require('../Middleware/ProfileImagesHandler') // Updated Cloudinary upload middleware
+const {
+    createProfile, 
+    handleDp, 
+    handleProfilePics, 
+    getProfile, 
+    deleteImage, 
+    updateProfile
+} = require('../Controllers/UserProfile')
 
-const Authenticate=require('../Middleware/userAuthentication')
-const upload=require('../Middleware/ProfileImagesHandler')
-const {createProfile,handleDp,handleProfilePics,getProfile,deleteImage,updateProfile}=require('../Controllers/UserProfile')
-
-
-
+// Authentication middleware with exceptions
 router.use((req, res, next) => {
     console.log(req.path)
-    if (req.path.startsWith('/userDp/')||req.path.startsWith('/handle')) {
-        return next(); // Skip authentication for this specific path pattern
-      }
+    if (req.path.startsWith('/userDp/') || req.path.startsWith('/handle')) {
+        return next(); // Skip authentication for these paths
+    }
     // Otherwise, apply authentication
     Authenticate(req, res, next);
-  });
+});
 
-router.use(['/create','/update'],[upload.array('images',5)])
+// Apply upload middleware to create and update routes
+router.use(['/create', '/update'], upload.array('images', 5))
 
-router.use('/create',createProfile)
-router.use('/fetch',getProfile)
-router.use('/imageDelete',deleteImage)
-router.use('/update',updateProfile)
-router.use('/userDp/:username',handleDp)
-router.use('/handleProfilePics/:picName',handleProfilePics)
+// Define routes
+router.post('/create', createProfile)
+router.get('/fetch', getProfile)
+router.delete('/imageDelete', deleteImage)
+router.put('/update', updateProfile)
+router.get('/userDp/:username', handleDp)
+router.get('/handleProfilePics/:picUrl', handleProfilePics)
 
-module.exports=router
+module.exports = router

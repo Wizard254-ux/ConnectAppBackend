@@ -1,33 +1,27 @@
-const fs=require('fs')
-const path=require('path')
-const multer=require('multer')
+require('dotenv').config(); 
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const multer = require('multer');
 
-const uploadDir=path.join(__dirname,'UserImages')
+// Configure Cloudinary
+console.log(process.env.CLOUDINARY_API_SECRET)
+cloudinary.config({ 
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME, 
+  api_key: process.env.CLOUDINARY_API_KEY, 
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
 
-if(!fs.existsSync(uploadDir)){
-    fs.mkdirSync(uploadDir,{recursive:true})
-}
+// Create Cloudinary storage configuration
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'user_profiles', // Folder in Cloudinary where images will be stored
+    allowed_formats: ['jpg', 'png', 'jpeg', 'gif', 'webp'],
+    transformation: [{ width: 500, height: 500, crop: 'limit' }] // Optional: resize images
+  }
+});
 
-const storage=multer.diskStorage({
-    destination:(req,file,cb)=>{
-        cb(null,uploadDir)
-    },
-    filename:(req,file,cb)=>{
-        cb(null,Date.now()+path.extname(file.originalname))
-    }
-})
+// Create multer upload middleware
+const upload = multer({ storage: storage });
 
-const fileFilter=(req,file,cb)=>{
-    if(file.mimetype.startsWith('image/')){
-        cb(null,true)
-    }else{
-        cb(new Error('Only JPG and PNG images are allowed'),false)
-    }
-}
-
-const upload=multer({
-    storage,
-    fileFilter
-})
-
-module.exports=upload
+module.exports = upload;
