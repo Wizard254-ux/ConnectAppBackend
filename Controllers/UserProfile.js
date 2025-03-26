@@ -51,7 +51,7 @@ const getProfile=async(req,res)=>{
         const profile={
             ...existingProfile._doc,
             images:existingProfile.images.map(imageName=>{
-              return `https://connectappbackend-9q1i.onrender.com/api/userProfile/${imageName}`         
+              return `https://connectappbackend-9q1i.onrender.com/api/userProfile/handleProfilePics/${imageName}`         
           })
           }
         
